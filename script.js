@@ -31,6 +31,10 @@ const formularioTarea = document.querySelector("#formulario-tareas");
 const inputTareas = document.querySelector("#tarea-nueva");
 const listaTareasPendientes = document.querySelector("#tareas-pendientes");
 
+const limpiarFormulario = () => {
+    formulario.reset();
+};
+
 const agregarTarea = (event) => {
     event.preventDefault();
 
@@ -63,6 +67,16 @@ const agregarTarea = (event) => {
     listaTareasPendientes.append(li);
     contadorTareas++;
     cantidadTareas.innerText = `${contadorTareas} tareas pendientes`;
+    limpiarFormulario();
 };
 
     formularioTarea.addEventListener("submit", agregarTarea);
+    const botonCancelar = document.querySelector("#cancelar-tarea");
+
+    botonCancelar.addEventListener("click", event => {
+        if(formulario.style.display == "none"){
+            formulario.style.display = "flex";
+        }else{
+            formulario.style.display = "none"
+        }
+    })
