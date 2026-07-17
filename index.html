@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Pixel&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+    <title>TO-DO List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1 id="titulo"><i data-lucide ="list-todo"></i> Lista de tareas</h1>
+    </header>
+    <main>
+        <article class="dashboard">
+            <div id="vistas">
+                <h2>Vistas</h2>
+                <button><i data-lucide ="sun"></i> <span>Hoy</span></button>
+                <button><i data-lucide ="calendar"></i> <span>Próximas</span></button>
+                <button><i data-lucide ="check"></i> <span>Completadas</span></button>
+            </div>
+            <div id="categorias">
+                <h2>Categorias</h2>
+                <button><i data-lucide ="circle"></i> <span>Universidad</span></button>
+                <button><i data-lucide ="circle"></i> <span>Trabajo</span></button>
+            </div>
+        </article>
+        <article class="contenido">
+            <section class="encabezado-tareas">
+                <div>
+                    <h2 id="fecha"> </h2>
+                    <p id="cantidad-tareas-pendientes"></p>
+                </div>
+                <button id="nueva-tarea" type="button">
+                    <span>＋</span>
+                    Nueva tarea
+                </button>
+            </section>
+            <section class="formulario-nueva-tarea" style="display: none">
+                <form id="formulario-tareas">
+                    <input id="tarea-nueva" type="text" placeholder="Ingrese su tarea">
+                    <button id="agregar-tarea" type="submit">Agregar</button>
+                    <button id="cancelar-tarea" type="button">Cancelar</button>
+                </form>
+            </section>
+            <section class="lista-pendientes">
+                <ul id="tareas-pendientes"></ul>
+            </section>
+            <section class="lista-completadas">
+                <ul id="tareas-completadas"></ul>
+            </section>
+        </article>
+    </main>
+    <script src="https://unpkg.com/lucide"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
