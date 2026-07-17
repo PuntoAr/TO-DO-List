@@ -76,5 +76,6 @@ formularioTarea.addEventListener("submit", agregarTarea);
 const botonCancelar = document.querySelector("#cancelar-tarea");
 
 botonCancelar.addEventListener("click", event => {
+    limpiarFormulario();
     ocultarFormulario();
 })
