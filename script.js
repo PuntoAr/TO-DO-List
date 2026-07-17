@@ -18,13 +18,15 @@ cantidadTareas.innerText = contadorTareas + " tareas pendientes";
 //Fase 2: Ocultar y mostrar formulario
 const botonTareas = document.querySelector("#nueva-tarea");
 const formulario = document.querySelector(".formulario-nueva-tarea");
-
-botonTareas.addEventListener("click", event => {
+const ocultarFormulario = () =>{
     if(formulario.style.display == "none"){
         formulario.style.display = "flex";
     }else{
         formulario.style.display = "none"
     }
+}
+botonTareas.addEventListener("click", event => {
+    ocultarFormulario();
 })
 //Fase 3: Agregar tareas
 const formularioTarea = document.querySelector("#formulario-tareas");
@@ -32,7 +34,7 @@ const inputTareas = document.querySelector("#tarea-nueva");
 const listaTareasPendientes = document.querySelector("#tareas-pendientes");
 
 const limpiarFormulario = () => {
-    formulario.reset();
+    formularioTarea.reset();
 };
 
 const agregarTarea = (event) => {
@@ -70,13 +72,9 @@ const agregarTarea = (event) => {
     limpiarFormulario();
 };
 
-    formularioTarea.addEventListener("submit", agregarTarea);
-    const botonCancelar = document.querySelector("#cancelar-tarea");
+formularioTarea.addEventListener("submit", agregarTarea);
+const botonCancelar = document.querySelector("#cancelar-tarea");
 
-    botonCancelar.addEventListener("click", event => {
-        if(formulario.style.display == "none"){
-            formulario.style.display = "flex";
-        }else{
-            formulario.style.display = "none"
-        }
-    })
+botonCancelar.addEventListener("click", event => {
+    ocultarFormulario();
+})
