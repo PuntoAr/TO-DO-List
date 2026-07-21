@@ -12,53 +12,53 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1 id="titulo"><i data-lucide ="list-todo"></i> Lista de tareas</h1>
-    </header>
-    <main>
-        <article class="dashboard">
-            <div id="vistas">
-                <h2>Vistas</h2>
-                <button><i data-lucide ="sun"></i> <span>Hoy</span></button>
-                <button><i data-lucide ="calendar"></i> <span>Próximas</span></button>
-                <button><i data-lucide ="check"></i> <span>Completadas</span></button>
+<header>
+    <h1 id="titulo"><i data-lucide ="list-todo"></i> Lista de tareas</h1>
+</header>
+<main>
+    <article class="dashboard">
+        <div id="vistas">
+            <h2>Vistas</h2>
+            <button id="vista-hoy"><i data-lucide ="sun"></i> <span>Hoy</span></button>
+            <button><i data-lucide ="calendar"></i> <span>Próximas</span></button>
+            <button id="vista-completadas"><i data-lucide ="check"></i> <span>Completadas</span></button>
+        </div>
+        <div id="categorias">
+            <h2>Categorias</h2>
+            <button><span>🔵Universidad</span></button>
+            <button><span>🔴Trabajo</span></button>
+        </div>
+    </article>
+    <article class="contenido">
+        <section class="encabezado-tareas">
+            <div>
+                <h2 id="fecha"> </h2>
+                <p id="cantidad-tareas-pendientes"></p>
             </div>
-            <div id="categorias">
-                <h2>Categorias</h2>
-                <button><i data-lucide ="circle"></i> <span>Universidad</span></button>
-                <button><i data-lucide ="circle"></i> <span>Trabajo</span></button>
-            </div>
-        </article>
-        <article class="contenido">
-            <section class="encabezado-tareas">
-                <div>
-                    <h2 id="fecha"> </h2>
-                    <p id="cantidad-tareas-pendientes"></p>
-                </div>
-                <button id="nueva-tarea" type="button">
-                    <span>＋</span>
-                    Nueva tarea
-                </button>
-            </section>
-            <section class="formulario-nueva-tarea" style="display: none">
-                <form id="formulario-tareas">
-                    <input id="tarea-nueva" type="text" placeholder="Ingrese su tarea">
-                    <button id="agregar-tarea" type="submit">Agregar</button>
-                    <button id="cancelar-tarea" type="button">Cancelar</button>
-                </form>
-            </section>
-            <section class="lista-pendientes">
-                <ul id="tareas-pendientes"></ul>
-            </section>
-            <section class="lista-completadas">
-                <ul id="tareas-completadas"></ul>
-            </section>
-        </article>
-    </main>
-    <script src="https://unpkg.com/lucide"></script>
-    <script>
-        lucide.createIcons();
-    </script>
-    <script src="script.js"></script>
+            <button id="nueva-tarea" type="button">
+                <span>＋</span>
+                Nueva tarea
+            </button>
+        </section>
+        <section class="formulario-nueva-tarea" style="display: none">
+            <form id="formulario-tareas">
+                <input id="tarea-nueva" type="text" placeholder="Ingrese su tarea">
+                <button class="botonForm" id="agregar-tarea" type="submit">Agregar</button>
+                <button class="botonForm" id="cancelar-tarea" type="button">Cancelar</button>
+            </form>
+        </section>
+        <section class="lista-pendientes">
+            <ul id="tareas-pendientes"></ul>
+        </section>
+        <section class="lista-completadas">
+            <ul id="tareas-completadas"></ul>
+        </section>
+    </article>
+</main>
+<script src="https://unpkg.com/lucide"></script>
+<script>
+    lucide.createIcons();
+</script>
+<script src="script.js"></script>
 </body>
 </html>

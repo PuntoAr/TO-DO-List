@@ -94,4 +94,57 @@ main{
 }
 #tarea-nueva{
     flex: 1;
+    background-color: #1a1a1a;
+    color: white;
+}
+#tareas-pendientes{
+    width: 100%;
+    padding: 0;
+}
+.botonEditar{
+    margin-right: 0.3rem;
+    display: inline;
+    background: transparent;
+    color: white;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+}
+.botonEditar:hover{
+    background-color: #1a1a1a;
+    border-radius: 6px;
+}
+.botonForm{
+    background: transparent;
+    color: white;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+}
+.botonForm:hover{
+    background-color: #1a1a1a;
+    border-radius: 6px;
+}
+.tarea{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1.5px solid #3e3e3c;
+    border-radius: 12px;
+    list-style: none;
+    margin-bottom: 0.75rem;
+}
+.textoTarea{
+    flex: 1;
+    margin-left: 1rem;
+    margin-right: 6rem;
+}
+.checkbox{
+    accent-color: #2c2c2a;
+    cursor: pointer;
+}
+.dashboard button.activo{
+    background-color: #1a1a1a;
+    border-radius: 6px;
 }
