@@ -130,6 +130,12 @@ const agregarTarea = (event) => {
     const categoria = selectorCategoria.value;
 
     if (tarea.trim() === "") {
+        alert("Ingrese una tarea.");
+        return;
+    }
+
+    if (categoria === ""){
+        alert("Seleccione una categoria.");
         return;
     }
 
