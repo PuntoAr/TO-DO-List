@@ -25,7 +25,11 @@ main{
     width: 24px;
     height: 24px;
 }
-
+button{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 .dashboard{
     padding-left: 1rem;
     padding-right: 5rem;
@@ -136,9 +140,7 @@ main{
     margin-bottom: 0.75rem;
 }
 .textoTarea{
-    flex: 1;
-    margin-left: 1rem;
-    margin-right: 6rem;
+    margin: 0;
 }
 .checkbox{
     accent-color: #2c2c2a;
@@ -147,4 +149,15 @@ main{
 .dashboard button.activo{
     background-color: #1a1a1a;
     border-radius: 6px;
+}
+.textoTareaCategoria{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-left: 1rem;
+}
+.textoCategoria{
+    margin: 0.25rem 0 0;
+    font-size: 0.8rem;
+    color: #86867e;
 }

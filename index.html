@@ -19,14 +19,18 @@
     <article class="dashboard">
         <div id="vistas">
             <h2>Vistas</h2>
-            <button id="vista-hoy"><i data-lucide ="sun"></i> <span>Hoy</span></button>
+            <button class="seleccionBoton" id="vista-hoy"><i data-lucide ="sun"></i> <span>Hoy</span></button>
             <button><i data-lucide ="calendar"></i> <span>Próximas</span></button>
-            <button id="vista-completadas"><i data-lucide ="check"></i> <span>Completadas</span></button>
+            <button class="seleccionBoton" id="vista-completadas"><i data-lucide ="check"></i> <span>Completadas</span></button>
         </div>
         <div id="categorias">
             <h2>Categorias</h2>
-            <button><span>🔵Universidad</span></button>
-            <button><span>🔴Trabajo</span></button>
+            <button class="seleccionBoton" id="vista-universidad"><span>🔴</span>
+                <span>Universidad</span></button>
+            <button class="seleccionBoton" id="vista-trabajo"><span>🔵</span>
+                <span>Trabajo</span></button>
+            <button class="seleccionBoton" id="vista-personal"><span>🟢</span>
+                <span>Personal</span></button>
         </div>
     </article>
     <article class="contenido">
@@ -43,6 +47,11 @@
         <section class="formulario-nueva-tarea" style="display: none">
             <form id="formulario-tareas">
                 <input id="tarea-nueva" type="text" placeholder="Ingrese su tarea">
+                <select id="categoriaSelect" name="categoriaSelect">
+                    <option value="Personal">Personal</option>
+                    <option value="Universidad">Universidad</option>
+                    <option value="Trabajo">Trabajo</option>
+                </select>
                 <button class="botonForm" id="agregar-tarea" type="submit">Agregar</button>
                 <button class="botonForm" id="cancelar-tarea" type="button">Cancelar</button>
             </form>

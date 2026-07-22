@@ -1,4 +1,4 @@
-//Fecha actual - contador de tareas
+//Fecha actual
 const fechas = new Date();
 const numeroDia = fechas.getDate();
 const dia = fechas.getDay();
@@ -10,6 +10,7 @@ const meses = ["enero", "febrero" ,"Marzo" ,"Abril" ,"Mayo" ,"Junio" ,"Julio" ,"
 //Muestro en la pagina
 let fechaPagina = document.querySelector('#fecha');
 fechaPagina.innerText = "Hoy • " + dias[dia] +" "+ numeroDia + " de " + meses[mes];
+
 // Contador de tareas
 const cantidadTareas = document.querySelector('#cantidad-tareas-pendientes');
 let contadorTareas = 0;
@@ -30,16 +31,21 @@ const alternarFormulario = () =>{
 botonTareas.addEventListener("click", event => {
     alternarFormulario();
 })
-//Agregar tareas
-const formularioTarea = document.querySelector("#formulario-tareas");
-const inputTareas = document.querySelector("#tarea-nueva");
-const listaTareasPendientes = document.querySelector("#tareas-pendientes");
 
 const limpiarFormulario = () => {
     formularioTarea.reset();
 };
 
+// Agregar tareas
+const formularioTarea = document.querySelector("#formulario-tareas");
+const inputTareas = document.querySelector("#tarea-nueva");
+const listaTareasPendientes = document.querySelector("#tareas-pendientes");
+
+
+// Editar tareas
 let tareaEdicion = null;
+let categoriaEdicion = null;
+let liEdicion = null;
 
 // Filtro tareas completadas
 const listaTareasCompletadas = document.querySelector("#tareas-completadas");
@@ -47,32 +53,81 @@ const botonVistaHoy = document.querySelector("#vista-hoy");
 const botonVistaCompletadas = document.querySelector("#vista-completadas");
 const seccionPendientes = document.querySelector(".lista-pendientes");
 const seccionCompletadas = document.querySelector(".lista-completadas");
+const seleccionBoton = document.querySelectorAll(".seleccionBoton");
 
+function tareasPendientes(){
+    const tareasPendientes = document.querySelectorAll(".tarea");
+    tareasPendientes.forEach(tareasPendiente => {
+        tareasPendiente.style.display = "flex";
+    });
+}
+
+function activarBoton(botonSeleccionado){
+    seleccionBoton.forEach(boton=>{
+        boton.classList.remove("activo");
+    })
+    botonSeleccionado.classList.add("activo");
+}
 // Por defecto
 seccionPendientes.style.display = "block";
 seccionCompletadas.style.display = "none";
-botonVistaHoy.classList.add("activo");
-botonVistaCompletadas.classList.remove("activo");
+activarBoton(botonVistaHoy);
 
 botonVistaHoy.addEventListener("click", event => {
     seccionPendientes.style.display = "block";
     seccionCompletadas.style.display = "none";
-    botonVistaHoy.classList.add("activo");
-    botonVistaCompletadas.classList.remove("activo");
+    activarBoton(botonVistaHoy);
+    tareasPendientes();
 
 })
 botonVistaCompletadas.addEventListener("click", event => {
     seccionCompletadas.style.display = "block";
     seccionPendientes.style.display = "none";
-    botonVistaCompletadas.classList.add("activo");
-    botonVistaHoy.classList.remove("activo");
+    activarBoton(botonVistaCompletadas);
 })
+// Filtro de Castegorias
+const botonVistaUniversidad = document.querySelector("#vista-universidad");
+const botonVistaTrabajo = document.querySelector("#vista-trabajo");
+const botonVistaPersonal = document.querySelector("#vista-personal");
+
+
+function filtrarCategoria(categoria){
+    const elementosTarea = document.querySelectorAll(".tarea");
+
+    elementosTarea.forEach(elementoTarea => {
+        if (elementoTarea.dataset.categoria === categoria) {
+            elementoTarea.style.display = "flex";
+        } else {
+            elementoTarea.style.display = "none";
+        }
+    });
+}
+
+botonVistaUniversidad.addEventListener("click", event => {
+    activarBoton(botonVistaUniversidad);
+    filtrarCategoria("Universidad")
+
+})
+
+botonVistaTrabajo.addEventListener("click", event => {
+    activarBoton(botonVistaTrabajo);
+    filtrarCategoria("Trabajo")
+})
+
+botonVistaPersonal.addEventListener("click", event => {
+    activarBoton(botonVistaPersonal);
+    filtrarCategoria("Personal")
+})
+
 
 // --------- Agregar tareas -------
 const agregarTarea = (event) => {
     event.preventDefault();
 
     const tarea = inputTareas.value;
+    // para el selector de categorias
+    const selectorCategoria = document.querySelector("#categoriaSelect");
+    const categoria = selectorCategoria.value;
 
     if (tarea.trim() === "") {
         return;
@@ -81,11 +136,14 @@ const agregarTarea = (event) => {
     // Parte de Editar Tareas
     if(tareaEdicion != null){
         tareaEdicion.innerText = tarea;
+        categoriaEdicion.innerText = categoria;
+        liEdicion.dataset.categoria = categoria;
         tareaEdicion = null;
         limpiarFormulario();
         return;
     }
 
+    // Creo la lista de tareas
     const li = document.createElement("li");
     li.classList.add("tarea");
     const texto = document.createElement("span");
@@ -110,15 +168,24 @@ const agregarTarea = (event) => {
         }
     });
 
-    // Editar Tarea
+    // Elegir categoria
+    const textoCategoria = document.createElement("p");
+    textoCategoria.classList.add("textoCategoria");
+    textoCategoria.innerText = categoria;
+    li.dataset.categoria = categoria;
 
+
+    // Editar Tarea
     const botonEditar = document.createElement("button");
     botonEditar.classList.add("botonEditar");
     botonEditar.innerText = "Editar";
 
     botonEditar.addEventListener("click", (event) => {
         tareaEdicion = texto;
+        categoriaEdicion = textoCategoria;
+        liEdicion = li;
         inputTareas.value = texto.innerText;
+        selectorCategoria.value = li.dataset.categoria;
         formulario.style.display = "flex";
         inputTareas.focus();
     })
@@ -136,19 +203,26 @@ const agregarTarea = (event) => {
         li.remove();
     })
 
+    // Creo un contenedor de textos
+    const divText = document.createElement("div");
+    divText.classList.add("textoTareaCategoria");
+    divText.append(texto, textoCategoria);
 
-    li.append(checkBox, texto, botonEditar, botonEliminar);
+    // Agrego todos los elementos a la lista
+    li.append(checkBox, divText, botonEditar, botonEliminar);
     listaTareasPendientes.append(li);
+
+
     contadorTareas++;
     cantidadTareas.innerText = `${contadorTareas} tareas pendientes`;
     limpiarFormulario();
 };
 
-// Filtro completadas
-
+// Boton Agregar
 formularioTarea.addEventListener("submit", agregarTarea);
 const botonCancelar = document.querySelector("#cancelar-tarea");
 
+// Boton Cancelar
 botonCancelar.addEventListener("click", event => {
     tareaEdicion = null;
     tareaEdicion = null;
