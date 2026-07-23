@@ -46,6 +46,7 @@ const listaTareasPendientes = document.querySelector("#tareas-pendientes");
 let tareaEdicion = null;
 let categoriaEdicion = null;
 let liEdicion = null;
+let prioridadEdicion = null;
 
 // Filtro tareas completadas
 const listaTareasCompletadas = document.querySelector("#tareas-completadas");
@@ -103,6 +104,25 @@ function filtrarCategoria(categoria){
     });
 }
 
+// Ordenar Prioridad
+const valorPrioridad = {
+    Alta: 1,
+    Media: 2,
+    Baja: 3
+};
+function ordenarPorPrioridad(){
+    const tareas = document.querySelectorAll(".tarea");
+    const arrayTareas = Array.from(tareas);
+
+    arrayTareas.sort((tareaA, tareaB) =>{
+        return valorPrioridad[tareaA.dataset.prioridad]-valorPrioridad[tareaB.dataset.prioridad];
+    });
+
+    for(const tarea of arrayTareas){
+        listaTareasPendientes.append(tarea);
+    }
+}
+
 botonVistaUniversidad.addEventListener("click", event => {
     activarBoton(botonVistaUniversidad);
     filtrarCategoria("Universidad")
@@ -119,6 +139,19 @@ botonVistaPersonal.addEventListener("click", event => {
     filtrarCategoria("Personal")
 })
 
+// Funcion cambio de color prioridad
+function coloresPrioridad(textoPrioridad, prioridad){
+    textoPrioridad.classList.remove("textoPrioridadAlta",
+        "textoPrioridadMedia", "textoPrioridadBaja");
+
+    if(prioridad === "Alta" ){
+        textoPrioridad.classList.add("textoPrioridadAlta");
+    }else if(prioridad === "Media" ){
+        textoPrioridad.classList.add("textoPrioridadMedia");
+    }else{
+        textoPrioridad.classList.add("textoPrioridadBaja");
+    }
+}
 
 // --------- Agregar tareas -------
 const agregarTarea = (event) => {
@@ -128,6 +161,10 @@ const agregarTarea = (event) => {
     // para el selector de categorias
     const selectorCategoria = document.querySelector("#categoriaSelect");
     const categoria = selectorCategoria.value;
+
+    // Para el selector de prioridad
+    const selectorPrioridad = document.querySelector("#prioridadSelect");
+    const prioridad = selectorPrioridad.value;
 
     if (tarea.trim() === "") {
         alert("Ingrese una tarea.");
@@ -143,8 +180,11 @@ const agregarTarea = (event) => {
     if(tareaEdicion != null){
         tareaEdicion.innerText = tarea;
         categoriaEdicion.innerText = categoria;
+        prioridadEdicion.innerText = prioridad;
         liEdicion.dataset.categoria = categoria;
+        liEdicion.dataset.prioridad = prioridad;
         tareaEdicion = null;
+        coloresPrioridad(prioridadEdicion,prioridad);
         limpiarFormulario();
         return;
     }
@@ -180,6 +220,13 @@ const agregarTarea = (event) => {
     textoCategoria.innerText = categoria;
     li.dataset.categoria = categoria;
 
+    // Elegir prioridad
+    const textoPrioridad = document.createElement("p");
+    textoPrioridad.classList.add("textoPrioridad");
+    textoPrioridad.innerText = prioridad;
+    li.dataset.prioridad = prioridad;
+
+    coloresPrioridad(textoPrioridad, prioridad);
 
     // Editar Tarea
     const botonEditar = document.createElement("button");
@@ -189,9 +236,11 @@ const agregarTarea = (event) => {
     botonEditar.addEventListener("click", (event) => {
         tareaEdicion = texto;
         categoriaEdicion = textoCategoria;
+        prioridadEdicion = textoPrioridad;
         liEdicion = li;
         inputTareas.value = texto.innerText;
         selectorCategoria.value = li.dataset.categoria;
+        selectorPrioridad.value = li.dataset.prioridad;
         formulario.style.display = "flex";
         inputTareas.focus();
     })
@@ -215,13 +264,14 @@ const agregarTarea = (event) => {
     divText.append(texto, textoCategoria);
 
     // Agrego todos los elementos a la lista
-    li.append(checkBox, divText, botonEditar, botonEliminar);
+    li.append(checkBox, divText, botonEditar, botonEliminar,  textoPrioridad);
     listaTareasPendientes.append(li);
 
 
     contadorTareas++;
     cantidadTareas.innerText = `${contadorTareas} tareas pendientes`;
     limpiarFormulario();
+    ordenarPorPrioridad();
 };
 
 // Boton Agregar

@@ -161,3 +161,22 @@ button{
     font-size: 0.8rem;
     color: #86867e;
 }
+.textoPrioridad{
+    margin-right: 0.3rem;
+    padding: 0.25rem 0.5rem;
+    display: inline;
+    font-size: 1rem;
+    border-radius: 12px;
+}
+.textoPrioridadAlta{
+    color: #d68483;
+    background-Color: #ffe9e9;
+}
+.textoPrioridadMedia{
+    color: #dfad87;
+    background-color: #fbf1dc;
+}
+.textoPrioridadBaja{
+    color: #bdbdba;
+    background-color: #121212;
+}
