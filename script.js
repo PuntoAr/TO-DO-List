@@ -185,6 +185,7 @@ const agregarTarea = (event) => {
         liEdicion.dataset.prioridad = prioridad;
         tareaEdicion = null;
         coloresPrioridad(prioridadEdicion,prioridad);
+        ordenarPorPrioridad();
         limpiarFormulario();
         return;
     }
