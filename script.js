@@ -3,6 +3,8 @@ const fechas = new Date();
 const numeroDia = fechas.getDate();
 const dia = fechas.getDay();
 const mes = fechas.getMonth();
+const anio = fechas.getFullYear();
+const fechaHoy = `${anio}-${String(mes + 1).padStart(2, "0")}-${String(numeroDia).padStart(2, "0")}`;
 // Uso arrays, ya que se obtiene numeros de lo anterior
 const dias = ["Domingo", "Lunes" ,"Martes" ,"Miercoles" ,"Jueves" ,"Viernes" ,"Sabado"]
 const meses = ["enero", "febrero" ,"Marzo" ,"Abril" ,"Mayo" ,"Junio" ,"Julio" ,"Agosto" ,"Septiembre" ,"Octubre" ,"Noviembre" ,"Diciembre"];
@@ -47,17 +49,18 @@ let tareaEdicion = null;
 let categoriaEdicion = null;
 let liEdicion = null;
 let prioridadEdicion = null;
+let fechaEdicion = null;
 
 // Filtro tareas completadas
 const listaTareasCompletadas = document.querySelector("#tareas-completadas");
-const botonVistaHoy = document.querySelector("#vista-hoy");
+const botonVistaTodas = document.querySelector("#vista-todas");
 const botonVistaCompletadas = document.querySelector("#vista-completadas");
 const seccionPendientes = document.querySelector(".lista-pendientes");
 const seccionCompletadas = document.querySelector(".lista-completadas");
 const seleccionBoton = document.querySelectorAll(".seleccionBoton");
 
 function tareasPendientes(){
-    const tareasPendientes = document.querySelectorAll(".tarea");
+    const tareasPendientes = listaTareasPendientes.querySelectorAll(".tarea");
     tareasPendientes.forEach(tareasPendiente => {
         tareasPendiente.style.display = "flex";
     });
@@ -72,12 +75,12 @@ function activarBoton(botonSeleccionado){
 // Por defecto
 seccionPendientes.style.display = "block";
 seccionCompletadas.style.display = "none";
-activarBoton(botonVistaHoy);
+activarBoton(botonVistaTodas);
 
-botonVistaHoy.addEventListener("click", event => {
+botonVistaTodas.addEventListener("click", event => {
     seccionPendientes.style.display = "block";
     seccionCompletadas.style.display = "none";
-    activarBoton(botonVistaHoy);
+    activarBoton(botonVistaTodas);
     tareasPendientes();
 
 })
@@ -93,7 +96,7 @@ const botonVistaPersonal = document.querySelector("#vista-personal");
 
 
 function filtrarCategoria(categoria){
-    const elementosTarea = document.querySelectorAll(".tarea");
+    const elementosTarea = listaTareasPendientes.querySelectorAll(".tarea");
 
     elementosTarea.forEach(elementoTarea => {
         if (elementoTarea.dataset.categoria === categoria) {
@@ -111,7 +114,7 @@ const valorPrioridad = {
     Baja: 3
 };
 function ordenarPorPrioridad(){
-    const tareas = document.querySelectorAll(".tarea");
+    const tareas = listaTareasPendientes.querySelectorAll(".tarea");
     const arrayTareas = Array.from(tareas);
 
     arrayTareas.sort((tareaA, tareaB) =>{
@@ -124,34 +127,89 @@ function ordenarPorPrioridad(){
 }
 
 botonVistaUniversidad.addEventListener("click", event => {
+    seccionPendientes.style.display = "block";
+    seccionCompletadas.style.display = "none";
     activarBoton(botonVistaUniversidad);
     filtrarCategoria("Universidad")
 
 })
 
 botonVistaTrabajo.addEventListener("click", event => {
+    seccionPendientes.style.display = "block";
+    seccionCompletadas.style.display = "none";
     activarBoton(botonVistaTrabajo);
     filtrarCategoria("Trabajo")
 })
 
 botonVistaPersonal.addEventListener("click", event => {
+    seccionPendientes.style.display = "block";
+    seccionCompletadas.style.display = "none";
     activarBoton(botonVistaPersonal);
     filtrarCategoria("Personal")
 })
 
 // Funcion cambio de color prioridad
 function coloresPrioridad(textoPrioridad, prioridad){
-    textoPrioridad.classList.remove("textoPrioridadAlta",
-        "textoPrioridadMedia", "textoPrioridadBaja");
+    textoPrioridad.classList.remove(
+        "textoPrioridadAlta",
+        "textoPrioridadMedia",
+        "textoPrioridadBaja"
+    );
 
-    if(prioridad === "Alta" ){
+    if(prioridad === "Alta"){
         textoPrioridad.classList.add("textoPrioridadAlta");
-    }else if(prioridad === "Media" ){
+    }else if(prioridad === "Media"){
         textoPrioridad.classList.add("textoPrioridadMedia");
     }else{
         textoPrioridad.classList.add("textoPrioridadBaja");
     }
 }
+// Filtro de fechas proximas
+const botonVistaProximas = document.querySelector("#vista-proximas");
+
+function filtrarProximas(){
+    const elementosTarea = listaTareasPendientes.querySelectorAll(".tarea");
+    elementosTarea.forEach(elementoTarea => {
+        const fechaTarea = elementoTarea.dataset.fecha;
+        if(fechaTarea > fechaHoy){
+            elementoTarea.style.display = "flex";
+        }else{
+            elementoTarea.style.display = "none";
+        }
+    })
+
+}
+
+botonVistaProximas.addEventListener("click", event => {
+    seccionPendientes.style.display = "block";
+    seccionCompletadas.style.display = "none";
+    activarBoton(botonVistaProximas);
+    filtrarProximas();
+})
+
+// Fitro de fecha Hoy
+const botonVistaHoy = document.querySelector("#vista-hoy");
+
+function filtrarHoy(){
+    const elementosTarea = listaTareasPendientes.querySelectorAll(".tarea");
+    elementosTarea.forEach(elementoTarea => {
+        const fechaTarea = elementoTarea.dataset.fecha;
+        if(fechaTarea === fechaHoy){
+            elementoTarea.style.display = "flex";
+        }else{
+            elementoTarea.style.display = "none";
+        }
+    })
+
+}
+
+botonVistaHoy.addEventListener("click", event => {
+    seccionPendientes.style.display = "block";
+    seccionCompletadas.style.display = "none";
+    activarBoton(botonVistaHoy);
+    filtrarHoy();
+
+})
 
 // --------- Agregar tareas -------
 const agregarTarea = (event) => {
@@ -166,13 +224,12 @@ const agregarTarea = (event) => {
     const selectorPrioridad = document.querySelector("#prioridadSelect");
     const prioridad = selectorPrioridad.value;
 
-    if (tarea.trim() === "") {
-        alert("Ingrese una tarea.");
-        return;
-    }
+    // Para el selector de fecha
+    const selectorFecha = document.querySelector("#selectFecha");
+    const fecha = selectorFecha.value;
 
-    if (categoria === ""){
-        alert("Seleccione una categoria.");
+
+    if (tarea.trim() === "" || categoria.trim() === "" || prioridad.trim() === "") {
         return;
     }
 
@@ -181,12 +238,18 @@ const agregarTarea = (event) => {
         tareaEdicion.innerText = tarea;
         categoriaEdicion.innerText = categoria;
         prioridadEdicion.innerText = prioridad;
+        fechaEdicion.innerText = fecha !== "" ? `Fecha: ${fecha}` : "";
         liEdicion.dataset.categoria = categoria;
         liEdicion.dataset.prioridad = prioridad;
-        tareaEdicion = null;
+        liEdicion.dataset.fecha = fecha;
         coloresPrioridad(prioridadEdicion,prioridad);
         ordenarPorPrioridad();
         limpiarFormulario();
+        tareaEdicion = null;
+        categoriaEdicion = null;
+        prioridadEdicion = null;
+        fechaEdicion = null;
+        liEdicion = null;
         return;
     }
 
@@ -212,6 +275,7 @@ const agregarTarea = (event) => {
             contadorTareas++;
             cantidadTareas.innerText = `${contadorTareas} tareas pendientes`;
             listaTareasPendientes.append(li);
+            ordenarPorPrioridad();
         }
     });
 
@@ -229,6 +293,12 @@ const agregarTarea = (event) => {
 
     coloresPrioridad(textoPrioridad, prioridad);
 
+    // Elegir fecha
+    const fechaTexto = document.createElement("span");
+    fechaTexto.classList.add("fechaTexto");
+    fechaTexto.innerText = fecha !== "" ? `Fecha: ${fecha}` : "";
+    li.dataset.fecha = fecha;
+
     // Editar Tarea
     const botonEditar = document.createElement("button");
     botonEditar.classList.add("botonEditar");
@@ -238,10 +308,12 @@ const agregarTarea = (event) => {
         tareaEdicion = texto;
         categoriaEdicion = textoCategoria;
         prioridadEdicion = textoPrioridad;
+        fechaEdicion = fechaTexto;
         liEdicion = li;
         inputTareas.value = texto.innerText;
         selectorCategoria.value = li.dataset.categoria;
         selectorPrioridad.value = li.dataset.prioridad;
+        selectorFecha.value = li.dataset.fecha;
         formulario.style.display = "flex";
         inputTareas.focus();
     })
@@ -262,7 +334,7 @@ const agregarTarea = (event) => {
     // Creo un contenedor de textos
     const divText = document.createElement("div");
     divText.classList.add("textoTareaCategoria");
-    divText.append(texto, textoCategoria);
+    divText.append(texto, textoCategoria, fechaTexto);
 
     // Agrego todos los elementos a la lista
     li.append(checkBox, divText, botonEditar, botonEliminar,  textoPrioridad);
@@ -282,7 +354,11 @@ const botonCancelar = document.querySelector("#cancelar-tarea");
 // Boton Cancelar
 botonCancelar.addEventListener("click", event => {
     tareaEdicion = null;
-    tareaEdicion = null;
+    categoriaEdicion = null;
+    prioridadEdicion = null;
+    fechaEdicion = null;
+    liEdicion = null;
+
     limpiarFormulario();
     formulario.style.display = "none";
 })

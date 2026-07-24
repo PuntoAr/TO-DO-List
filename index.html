@@ -19,8 +19,9 @@
     <article class="dashboard">
         <div id="vistas">
             <h2>Vistas</h2>
-            <button class="seleccionBoton" id="vista-hoy"><i data-lucide ="sun"></i> <span>Hoy</span></button>
-            <button><i data-lucide ="calendar"></i> <span>Próximas</span></button>
+            <button class="seleccionBoton" id="vista-todas"><i data-lucide ="gallery-vertical-end"></i> <span>Todas</span></button>
+            <button class="seleccionBoton" id="vista-hoy"><i data-lucide="sun"></i> <span>Hoy</span> </button>
+            <button class="seleccionBoton" id="vista-proximas"><i data-lucide ="calendar"></i> <span>Próximas</span></button>
             <button class="seleccionBoton" id="vista-completadas"><i data-lucide ="check"></i> <span>Completadas</span></button>
         </div>
         <div id="categorias">
@@ -47,20 +48,24 @@
         <section class="formulario-nueva-tarea" style="display: none">
             <form id="formulario-tareas">
                 <input id="tarea-nueva" type="text" placeholder="Ingrese su tarea">
-                <select id="categoriaSelect" name="categoriaSelect">
+                <select class="selectTareas" id="categoriaSelect" name="categoriaSelect">
                     <option value="" selected disabled> Seleccione una categoría</option>
                     <option value="Personal">Personal</option>
                     <option value="Universidad">Universidad</option>
                     <option value="Trabajo">Trabajo</option>
                 </select>
-                <select id="prioridadSelect" name="prioridadSelect">
+                <select class="selectTareas" id="prioridadSelect" name="prioridadSelect">
                     <option value="" selected disabled> Seleccione prioridad</option>
                     <option value="Alta">Alta</option>
                     <option value="Media">Media</option>
                     <option value="Baja">Baja</option>
                 </select>
-                <button class="botonForm" id="agregar-tarea" type="submit">Agregar</button>
-                <button class="botonForm" id="cancelar-tarea" type="button">Cancelar</button>
+                <label for="selectFecha" id="date">Fecha</label>
+                <input type="date" id="selectFecha">
+                <div class="botonForm">
+                    <button class="agregarCancelar" id="agregar-tarea" type="submit">Agregar</button>
+                    <button class="agregarCancelar" id="cancelar-tarea" type="button" style="margin-top: 0.5rem">Cancelar</button>
+                </div>
             </form>
         </section>
         <section class="lista-pendientes">

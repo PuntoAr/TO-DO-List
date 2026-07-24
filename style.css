@@ -97,7 +97,9 @@ button{
     gap: 0.75rem;
 }
 #tarea-nueva{
-    flex: 1;
+    margin-top: 0.4rem;
+    width: 170px;
+    height: 22px;
     background-color: #1a1a1a;
     color: white;
 }
@@ -119,13 +121,18 @@ button{
     border-radius: 6px;
 }
 .botonForm{
+    display: flex;
+    flex-direction: column;
+
+}
+.agregarCancelar{
     background: transparent;
     color: white;
     border: none;
     text-align: left;
     cursor: pointer;
 }
-.botonForm:hover{
+.agregarCancelar:hover{
     background-color: #1a1a1a;
     border-radius: 6px;
 }
@@ -179,4 +186,34 @@ button{
 .textoPrioridadBaja{
     color: #bdbdba;
     background-color: #121212;
+}
+.fechaTexto{
+    margin: 0.25rem 0 0;
+    font-size: 0.8rem;
+    color: #86867e;
+}
+#date{
+    margin-top: 0.8rem;
+    color: #bdbdba;
+    font-size: 0.8rem;
+}
+#selectFecha{
+    height: 22px;
+    margin-top: 0.4rem;
+    background-color: #1a1a1a;
+    color: white;
+    border: 1px solid #3e3e3c;
+    border-radius: 8px;
+    font-size: 15px;
+}
+.selectTareas{
+    width: 180px;
+    height: 20px;
+    margin-top: 0.6rem;
+    background-color: #1a1a1a;
+    color: white;
+    border: 1px solid #3e3e3c;
+    border-radius: 8px;
+    font-size: 10px;
+    cursor: pointer;
 }
