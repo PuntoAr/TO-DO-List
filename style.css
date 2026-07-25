@@ -31,8 +31,8 @@ button{
     gap: 8px;
 }
 .dashboard{
-    padding-left: 1rem;
-    padding-right: 5rem;
+    width: 220px;
+    padding: 1rem;
     border-right: 1.5px solid #3e3e3c;
 }
 .dashboard svg{
@@ -94,26 +94,19 @@ button{
     border: 1.5px solid #3e3e3c;
     border-radius: 12px;
     display: flex;
+    align-items: center;
     gap: 0.75rem;
 }
 #tarea-nueva{
-    margin-top: 0.4rem;
     width: 170px;
     height: 22px;
     background-color: #1a1a1a;
     color: white;
 }
-#tareas-pendientes{
-    width: 100%;
-    padding: 0;
-}
 .botonEditar{
-    margin-right: 0.3rem;
-    display: inline;
     background: transparent;
     color: white;
     border: none;
-    text-align: left;
     cursor: pointer;
 }
 .botonEditar:hover{
@@ -123,6 +116,7 @@ button{
 .botonForm{
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
 
 }
 .agregarCancelar{
@@ -144,7 +138,18 @@ button{
     border: 1.5px solid #3e3e3c;
     border-radius: 12px;
     list-style: none;
-    margin-bottom: 0.75rem;
+}
+.lista-pendientes, .lista-completadas{
+    margin-top: 1rem;
+}
+
+#tareas-completadas, #tareas-pendientes{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 .textoTarea{
     margin: 0;
@@ -161,17 +166,16 @@ button{
     display: flex;
     flex-direction: column;
     flex: 1;
-    margin-left: 1rem;
+    gap: .25rem;
 }
 .textoCategoria{
-    margin: 0.25rem 0 0;
+    margin: 0;
     font-size: 0.8rem;
     color: #86867e;
 }
 .textoPrioridad{
-    margin-right: 0.3rem;
+    margin: 0;
     padding: 0.25rem 0.5rem;
-    display: inline;
     font-size: 1rem;
     border-radius: 12px;
 }
@@ -188,18 +192,21 @@ button{
     background-color: #121212;
 }
 .fechaTexto{
-    margin: 0.25rem 0 0;
+    margin: 0;
     font-size: 0.8rem;
     color: #86867e;
 }
+.campo-fecha{
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
 #date{
-    margin-top: 0.8rem;
     color: #bdbdba;
     font-size: 0.8rem;
 }
 #selectFecha{
     height: 22px;
-    margin-top: 0.4rem;
     background-color: #1a1a1a;
     color: white;
     border: 1px solid #3e3e3c;
@@ -209,11 +216,13 @@ button{
 .selectTareas{
     width: 180px;
     height: 20px;
-    margin-top: 0.6rem;
     background-color: #1a1a1a;
     color: white;
     border: 1px solid #3e3e3c;
     border-radius: 8px;
     font-size: 10px;
     cursor: pointer;
+}
+.fechaVencida{
+    color: tomato;
 }

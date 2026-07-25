@@ -24,7 +24,7 @@ const formulario = document.querySelector(".formulario-nueva-tarea");
 
 // Esconde o muestra el formulario
 const alternarFormulario = () =>{
-    if(formulario.style.display == "none"){
+    if(formulario.style.display === "none"){
         formulario.style.display = "flex";
     }else{
         formulario.style.display = "none"
@@ -194,7 +194,7 @@ function filtrarHoy(){
     const elementosTarea = listaTareasPendientes.querySelectorAll(".tarea");
     elementosTarea.forEach(elementoTarea => {
         const fechaTarea = elementoTarea.dataset.fecha;
-        if(fechaTarea === fechaHoy){
+        if(fechaTarea !== "" && fechaTarea <= fechaHoy){
             elementoTarea.style.display = "flex";
         }else{
             elementoTarea.style.display = "none";
@@ -210,7 +210,32 @@ botonVistaHoy.addEventListener("click", event => {
     filtrarHoy();
 
 })
+const botonAgregar = document.querySelector("#agregar-tarea");
 
+// Mejora visual de fecha
+function cambiarFecha(fecha){
+    if(fecha.trim() === ""){
+        return "";
+    }
+    const partes = fecha.split("-");
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+}
+
+// Fechas vencidas
+function actualizarEstadoFecha(fecha, fechaTexto){
+    if(fecha.trim() === ""){
+        fechaTexto.innerText = "";
+        fechaTexto.classList.remove("fechaVencida");
+        return;
+    }
+    if(fecha < fechaHoy){
+        fechaTexto.innerText = `Vencida: ${cambiarFecha(fecha)}`;
+        fechaTexto.classList.add("fechaVencida");
+    }else{
+        fechaTexto.innerText = `Fecha: ${cambiarFecha(fecha)}`;
+        fechaTexto.classList.remove("fechaVencida");
+    }
+}
 // --------- Agregar tareas -------
 const agregarTarea = (event) => {
     event.preventDefault();
@@ -228,7 +253,6 @@ const agregarTarea = (event) => {
     const selectorFecha = document.querySelector("#selectFecha");
     const fecha = selectorFecha.value;
 
-
     if (tarea.trim() === "" || categoria.trim() === "" || prioridad.trim() === "") {
         return;
     }
@@ -238,7 +262,7 @@ const agregarTarea = (event) => {
         tareaEdicion.innerText = tarea;
         categoriaEdicion.innerText = categoria;
         prioridadEdicion.innerText = prioridad;
-        fechaEdicion.innerText = fecha !== "" ? `Fecha: ${fecha}` : "";
+        actualizarEstadoFecha(fecha, fechaEdicion);
         liEdicion.dataset.categoria = categoria;
         liEdicion.dataset.prioridad = prioridad;
         liEdicion.dataset.fecha = fecha;
@@ -250,6 +274,7 @@ const agregarTarea = (event) => {
         prioridadEdicion = null;
         fechaEdicion = null;
         liEdicion = null;
+        botonAgregar.innerText = "Agregar";
         return;
     }
 
@@ -267,11 +292,13 @@ const agregarTarea = (event) => {
     checkBox.addEventListener("change", (event) => {
         if (event.target.checked) {
             texto.style.textDecoration = "line-through";
+            fechaTexto.classList.remove("fechaVencida");
             contadorTareas--;
             cantidadTareas.innerText = `${contadorTareas} tareas pendientes`;
             listaTareasCompletadas.append(li);
         } else {
             texto.style.textDecoration = "none";
+            actualizarEstadoFecha(li.dataset.fecha, fechaTexto)
             contadorTareas++;
             cantidadTareas.innerText = `${contadorTareas} tareas pendientes`;
             listaTareasPendientes.append(li);
@@ -296,7 +323,7 @@ const agregarTarea = (event) => {
     // Elegir fecha
     const fechaTexto = document.createElement("span");
     fechaTexto.classList.add("fechaTexto");
-    fechaTexto.innerText = fecha !== "" ? `Fecha: ${fecha}` : "";
+    actualizarEstadoFecha(fecha, fechaTexto)
     li.dataset.fecha = fecha;
 
     // Editar Tarea
@@ -314,6 +341,7 @@ const agregarTarea = (event) => {
         selectorCategoria.value = li.dataset.categoria;
         selectorPrioridad.value = li.dataset.prioridad;
         selectorFecha.value = li.dataset.fecha;
+        botonAgregar.innerText = "Guardar"
         formulario.style.display = "flex";
         inputTareas.focus();
     })
@@ -358,7 +386,7 @@ botonCancelar.addEventListener("click", event => {
     prioridadEdicion = null;
     fechaEdicion = null;
     liEdicion = null;
-
+    botonAgregar.innerText = "Agregar";
     limpiarFormulario();
     formulario.style.display = "none";
 })
