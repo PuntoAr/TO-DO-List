@@ -42,7 +42,16 @@ const limpiarFormulario = () => {
 const formularioTarea = document.querySelector("#formulario-tareas");
 const inputTareas = document.querySelector("#tarea-nueva");
 const listaTareasPendientes = document.querySelector("#tareas-pendientes");
+const tareas = [];
 
+// para el selector de categorias
+const selectorCategoria = document.querySelector("#categoriaSelect");
+
+// Para el selector de prioridad
+const selectorPrioridad = document.querySelector("#prioridadSelect");
+
+// Para el selector de fecha
+const selectorFecha = document.querySelector("#selectFecha");
 
 // Editar tareas
 let tareaEdicion = null;
@@ -236,60 +245,46 @@ function actualizarEstadoFecha(fecha, fechaTexto){
         fechaTexto.classList.remove("fechaVencida");
     }
 }
-// --------- Agregar tareas -------
-const agregarTarea = (event) => {
-    event.preventDefault();
 
-    const tarea = inputTareas.value;
-    // para el selector de categorias
-    const selectorCategoria = document.querySelector("#categoriaSelect");
-    const categoria = selectorCategoria.value;
-
-    // Para el selector de prioridad
-    const selectorPrioridad = document.querySelector("#prioridadSelect");
-    const prioridad = selectorPrioridad.value;
-
-    // Para el selector de fecha
-    const selectorFecha = document.querySelector("#selectFecha");
-    const fecha = selectorFecha.value;
-
-    if (tarea.trim() === "" || categoria.trim() === "" || prioridad.trim() === "") {
-        return;
-    }
-
-    // Parte de Editar Tareas
-    if(tareaEdicion != null){
-        tareaEdicion.innerText = tarea;
-        categoriaEdicion.innerText = categoria;
-        prioridadEdicion.innerText = prioridad;
-        actualizarEstadoFecha(fecha, fechaEdicion);
-        liEdicion.dataset.categoria = categoria;
-        liEdicion.dataset.prioridad = prioridad;
-        liEdicion.dataset.fecha = fecha;
-        coloresPrioridad(prioridadEdicion,prioridad);
-        ordenarPorPrioridad();
-        limpiarFormulario();
-        tareaEdicion = null;
-        categoriaEdicion = null;
-        prioridadEdicion = null;
-        fechaEdicion = null;
-        liEdicion = null;
-        botonAgregar.innerText = "Agregar";
-        return;
-    }
+function crearElementoTarea(tarea){
 
     // Creo la lista de tareas
     const li = document.createElement("li");
     li.classList.add("tarea");
+    li.dataset.id = tarea.id;
+
     const texto = document.createElement("span");
     texto.classList.add("textoTarea");
-    texto.innerText = tarea;
+    texto.innerText = tarea.texto;
+
+    // Elegir categoria
+    const textoCategoria = document.createElement("p");
+    textoCategoria.classList.add("textoCategoria");
+    textoCategoria.innerText = tarea.categoria;
+    li.dataset.categoria = tarea.categoria;
+
+    // Elegir prioridad
+    const textoPrioridad = document.createElement("p");
+    textoPrioridad.classList.add("textoPrioridad");
+    textoPrioridad.innerText = tarea.prioridad;
+    li.dataset.prioridad = tarea.prioridad;
+
+    coloresPrioridad(textoPrioridad, tarea.prioridad);
+
+    // Elegir fecha
+    const fechaTexto = document.createElement("span");
+    fechaTexto.classList.add("fechaTexto");
+    actualizarEstadoFecha(tarea.fecha, fechaTexto)
+    li.dataset.fecha = tarea.fecha;
 
     //Checkbox de tareas
     const checkBox = document.createElement("input");
     checkBox.type = "checkbox";
     checkBox.classList.add("checkbox");
+    checkBox.checked = tarea.completada;
+
     checkBox.addEventListener("change", (event) => {
+        tarea.completada = event.target.checked;
         if (event.target.checked) {
             texto.style.textDecoration = "line-through";
             fechaTexto.classList.remove("fechaVencida");
@@ -298,7 +293,7 @@ const agregarTarea = (event) => {
             listaTareasCompletadas.append(li);
         } else {
             texto.style.textDecoration = "none";
-            actualizarEstadoFecha(li.dataset.fecha, fechaTexto)
+            actualizarEstadoFecha(tarea.fecha, fechaTexto)
             contadorTareas++;
             cantidadTareas.innerText = `${contadorTareas} tareas pendientes`;
             listaTareasPendientes.append(li);
@@ -306,41 +301,17 @@ const agregarTarea = (event) => {
         }
     });
 
-    // Elegir categoria
-    const textoCategoria = document.createElement("p");
-    textoCategoria.classList.add("textoCategoria");
-    textoCategoria.innerText = categoria;
-    li.dataset.categoria = categoria;
-
-    // Elegir prioridad
-    const textoPrioridad = document.createElement("p");
-    textoPrioridad.classList.add("textoPrioridad");
-    textoPrioridad.innerText = prioridad;
-    li.dataset.prioridad = prioridad;
-
-    coloresPrioridad(textoPrioridad, prioridad);
-
-    // Elegir fecha
-    const fechaTexto = document.createElement("span");
-    fechaTexto.classList.add("fechaTexto");
-    actualizarEstadoFecha(fecha, fechaTexto)
-    li.dataset.fecha = fecha;
-
     // Editar Tarea
     const botonEditar = document.createElement("button");
     botonEditar.classList.add("botonEditar");
     botonEditar.innerText = "Editar";
 
     botonEditar.addEventListener("click", (event) => {
-        tareaEdicion = texto;
-        categoriaEdicion = textoCategoria;
-        prioridadEdicion = textoPrioridad;
-        fechaEdicion = fechaTexto;
-        liEdicion = li;
-        inputTareas.value = texto.innerText;
-        selectorCategoria.value = li.dataset.categoria;
-        selectorPrioridad.value = li.dataset.prioridad;
-        selectorFecha.value = li.dataset.fecha;
+        tareaEdicion = tarea.id;
+        inputTareas.value = tarea.texto;
+        selectorCategoria.value = tarea.categoria;
+        selectorPrioridad.value = tarea.prioridad;
+        selectorFecha.value = tarea.fecha;
         botonAgregar.innerText = "Guardar"
         formulario.style.display = "flex";
         inputTareas.focus();
@@ -356,6 +327,13 @@ const agregarTarea = (event) => {
             contadorTareas--;
             cantidadTareas.innerText = `${contadorTareas} tareas pendientes`;
         }
+        const indiceTarea = tareas.findIndex((tareaArray) => {
+            return tareaArray.id === tarea.id;
+        })
+        if(indiceTarea !== -1){
+            tareas.splice(indiceTarea, 1);
+        }
+
         li.remove();
     })
 
@@ -366,8 +344,57 @@ const agregarTarea = (event) => {
 
     // Agrego todos los elementos a la lista
     li.append(checkBox, divText, botonEditar, botonEliminar,  textoPrioridad);
-    listaTareasPendientes.append(li);
+    return li;
+}
+// --------- Agregar tareas -------
+const agregarTarea = (event) => {
+    event.preventDefault();
 
+    // Partes de cada tarea
+    const tarea = inputTareas.value;
+    const categoria = selectorCategoria.value;
+    const prioridad = selectorPrioridad.value;
+    const fecha = selectorFecha.value;
+
+
+    if (tarea.trim() === "" || categoria.trim() === "" || prioridad.trim() === "") {
+        return;
+    }
+
+    const nuevaTarea = {
+        id: Date.now(), //Obtene fecha y hora actual en forma de numero
+        texto: tarea,
+        categoria: categoria,
+        prioridad: prioridad,
+        fecha: fecha,
+        completada: false
+    };
+
+
+    // Parte de Editar Tareas
+    if(tareaEdicion != null){
+        const tareaEncontrada = tareas.find((tareaArray) =>
+            tareaArray.id === tareaEdicion);
+        tareaEncontrada.texto = tarea;
+        tareaEncontrada.categoria = categoria;
+        tareaEncontrada.fecha = fecha;
+        tareaEncontrada.prioridad = prioridad;
+        const liViejo = document.querySelector(`li[data-id="${tareaEdicion}"]`);
+        if(liViejo){
+            liViejo.remove();
+        }
+        const elementoEditado = crearElementoTarea(tareaEncontrada);
+        listaTareasPendientes.append(elementoEditado);
+        ordenarPorPrioridad();
+        limpiarFormulario();
+        botonAgregar.innerText = "Agregar";
+        tareaEdicion = null;
+        return;
+    }
+    tareas.push(nuevaTarea);
+    // Agrego todos loe elementos a la lista
+    const elementoTarea= crearElementoTarea(nuevaTarea);
+    listaTareasPendientes.append(elementoTarea);
 
     contadorTareas++;
     cantidadTareas.innerText = `${contadorTareas} tareas pendientes`;
