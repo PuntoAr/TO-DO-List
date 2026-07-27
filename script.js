@@ -42,7 +42,7 @@ const limpiarFormulario = () => {
 const formularioTarea = document.querySelector("#formulario-tareas");
 const inputTareas = document.querySelector("#tarea-nueva");
 const listaTareasPendientes = document.querySelector("#tareas-pendientes");
-const tareas = [];
+let tareas = [];
 
 // para el selector de categorias
 const selectorCategoria = document.querySelector("#categoriaSelect");
@@ -55,10 +55,6 @@ const selectorFecha = document.querySelector("#selectFecha");
 
 // Editar tareas
 let tareaEdicion = null;
-let categoriaEdicion = null;
-let liEdicion = null;
-let prioridadEdicion = null;
-let fechaEdicion = null;
 
 // Filtro tareas completadas
 const listaTareasCompletadas = document.querySelector("#tareas-completadas");
@@ -246,6 +242,10 @@ function actualizarEstadoFecha(fecha, fechaTexto){
     }
 }
 
+function guardarTareas(){
+    localStorage.setItem("tareas", JSON.stringify(tareas));
+}
+
 function crearElementoTarea(tarea){
 
     // Creo la lista de tareas
@@ -285,6 +285,7 @@ function crearElementoTarea(tarea){
 
     checkBox.addEventListener("change", (event) => {
         tarea.completada = event.target.checked;
+        guardarTareas();
         if (event.target.checked) {
             texto.style.textDecoration = "line-through";
             fechaTexto.classList.remove("fechaVencida");
@@ -300,6 +301,10 @@ function crearElementoTarea(tarea){
             ordenarPorPrioridad();
         }
     });
+    if(tarea.completada){
+        texto.style.textDecoration = "line-through";
+        fechaTexto.classList.remove("fechaVencida");
+    }
 
     // Editar Tarea
     const botonEditar = document.createElement("button");
@@ -332,6 +337,7 @@ function crearElementoTarea(tarea){
         })
         if(indiceTarea !== -1){
             tareas.splice(indiceTarea, 1);
+            guardarTareas();
         }
 
         li.remove();
@@ -379,12 +385,17 @@ const agregarTarea = (event) => {
         tareaEncontrada.categoria = categoria;
         tareaEncontrada.fecha = fecha;
         tareaEncontrada.prioridad = prioridad;
+        guardarTareas();
         const liViejo = document.querySelector(`li[data-id="${tareaEdicion}"]`);
         if(liViejo){
             liViejo.remove();
         }
         const elementoEditado = crearElementoTarea(tareaEncontrada);
-        listaTareasPendientes.append(elementoEditado);
+        if(tareaEncontrada.completada){
+            listaTareasCompletadas.append(elementoEditado);
+        }else{
+            listaTareasPendientes.append(elementoEditado);
+        }
         ordenarPorPrioridad();
         limpiarFormulario();
         botonAgregar.innerText = "Agregar";
@@ -392,6 +403,7 @@ const agregarTarea = (event) => {
         return;
     }
     tareas.push(nuevaTarea);
+    guardarTareas();
     // Agrego todos loe elementos a la lista
     const elementoTarea= crearElementoTarea(nuevaTarea);
     listaTareasPendientes.append(elementoTarea);
@@ -409,11 +421,30 @@ const botonCancelar = document.querySelector("#cancelar-tarea");
 // Boton Cancelar
 botonCancelar.addEventListener("click", event => {
     tareaEdicion = null;
-    categoriaEdicion = null;
-    prioridadEdicion = null;
-    fechaEdicion = null;
-    liEdicion = null;
     botonAgregar.innerText = "Agregar";
     limpiarFormulario();
     formulario.style.display = "none";
 })
+
+// Cargo del localStorage las tareas
+function cargarTareas() {
+    const tareasGuardadas = localStorage.getItem("tareas");
+
+    if(tareasGuardadas !== null){
+        tareas = JSON.parse(tareasGuardadas);
+
+        tareas.forEach(tarea => {
+            const elementoTarea = crearElementoTarea(tarea);
+            if(tarea.completada){
+                listaTareasCompletadas.append(elementoTarea);
+            }else{
+                listaTareasPendientes.append(elementoTarea);
+                contadorTareas++;
+            }
+        })
+    }
+
+    cantidadTareas.innerText = `${contadorTareas} tareas pendientes`;
+    ordenarPorPrioridad();
+}
+cargarTareas();
