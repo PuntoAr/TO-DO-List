@@ -99,7 +99,6 @@ const botonVistaUniversidad = document.querySelector("#vista-universidad");
 const botonVistaTrabajo = document.querySelector("#vista-trabajo");
 const botonVistaPersonal = document.querySelector("#vista-personal");
 
-
 function filtrarCategoria(categoria){
     const elementosTarea = listaTareasPendientes.querySelectorAll(".tarea");
 
@@ -169,6 +168,7 @@ function coloresPrioridad(textoPrioridad, prioridad){
         textoPrioridad.classList.add("textoPrioridadBaja");
     }
 }
+
 // Filtro de fechas proximas
 const botonVistaProximas = document.querySelector("#vista-proximas");
 
@@ -241,6 +241,16 @@ function actualizarEstadoFecha(fecha, fechaTexto){
         fechaTexto.classList.remove("fechaVencida");
     }
 }
+
+// Scroll de nueva tarea
+formulario.addEventListener("scroll", event => {
+    let scrollActual = formulario.scrollLeft;
+    if(scrollActual > 0){
+        formulario.classList.add("ocultar-flecha");
+    }else{
+        formulario.classList.remove("ocultar-flecha");
+    }
+})
 
 function guardarTareas(){
     localStorage.setItem("tareas", JSON.stringify(tareas));
