@@ -8,6 +8,7 @@ body{
     font-weight: 400;
     font-style: normal;
 }
+
 main{
     display: flex;
     min-height: calc(100vh - 100px);
@@ -35,16 +36,11 @@ button{
     padding: 1rem;
     border-right: 1.5px solid #3e3e3c;
 }
-.dashboard svg{
-    padding-right: 1rem;
-    width: 18px;
-    height: 18px;
-}
 
 .dashboard button{
     display: flex;
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.5rem;
     background: transparent;
     color: white;
     border: none;
@@ -53,7 +49,7 @@ button{
 
 }
 .dashboard button svg{
-    padding-right: 1rem;
+    padding-right: 0.5rem;
     width: 18px;
     height: 18px;
 }
@@ -89,6 +85,7 @@ button{
     width: 18px;
     height: 18px;
 }
+
 #formulario-tareas{
     padding: 1rem;
     border: 1.5px solid #3e3e3c;
@@ -153,6 +150,7 @@ button{
 }
 .textoTarea{
     margin: 0;
+    overflow-wrap: break-word;
 }
 .checkbox{
     accent-color: #2c2c2a;
@@ -167,6 +165,7 @@ button{
     flex-direction: column;
     flex: 1;
     gap: .25rem;
+    min-width: 0;
 }
 .textoCategoria{
     margin: 0;
@@ -225,4 +224,58 @@ button{
 }
 .fechaVencida{
     color: tomato;
+}
+
+@media (max-width: 800px) {
+    main {
+        flex-direction: column;
+    }
+
+    .dashboard{
+        border-right: none;
+        border-bottom: 1.5px solid #3e3e3c;
+        width: 100%;
+    }
+
+    #vistas{
+        display: flex;
+        flex-direction: column;
+    }
+    #categorias{
+        display: flex;
+        flex-direction: column;
+    }
+    .contenido-vistas, .contenido-categorias{
+        display: flex;
+        gap: 2rem;
+        flex-direction: row;
+        overflow-x: auto;
+    }
+    .contenido-vistas button,
+    .contenido-categorias button {
+        width: auto;
+        flex-shrink: 0;
+    }
+    .dashboard button svg{
+        padding-right: 0;
+    }
+    .formulario-nueva-tarea {
+        max-width: 100%;
+        overflow-x: auto;
+        position: relative;
+    }
+
+    .formulario-nueva-tarea::after {
+        content: "→";
+        position: absolute;
+        right: 0;
+    }
+    .formulario-nueva-tarea.ocultar-flecha::after {
+        display: none;
+    }
+
+
+    #formulario-tareas {
+        flex-shrink: 0;
+    }
 }
