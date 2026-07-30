@@ -21,7 +21,21 @@ cantidadTareas.innerText = contadorTareas + " tareas pendientes";
 // Ocultar y mostrar formulario
 const botonTareas = document.querySelector("#nueva-tarea");
 const formulario = document.querySelector(".formulario-nueva-tarea");
+const botonTareasMovil = document.querySelector(".agregar-mobile");
+const vistas = document.querySelector('#vistas');
+const categorias = document.querySelector('#categorias');
+const botonVistasMovil = document.querySelector(".vistas-mobile");
+const botonCategoriaMovil = document.querySelector(".categorias-mobile");
 
+// Esconder o mostrar vistas y categorias en movil
+const alternarPanelesMovil = (elemento) => {
+    if(elemento.style.display === "none"){
+        elemento.style.display = "flex";
+    }else{
+        elemento.style.display = "none";
+    }
+
+}
 // Esconde o muestra el formulario
 const alternarFormulario = () =>{
     if(formulario.style.display === "none"){
@@ -30,8 +44,18 @@ const alternarFormulario = () =>{
         formulario.style.display = "none"
     }
 }
-botonTareas.addEventListener("click", event => {
+botonTareas.addEventListener("click", () => {
     alternarFormulario();
+})
+botonTareasMovil.addEventListener("click", () => {
+    alternarFormulario();
+})
+botonVistasMovil.addEventListener("click", () => {
+    alternarPanelesMovil(vistas);
+})
+
+botonCategoriaMovil.addEventListener("click", () => {
+    alternarPanelesMovil(categorias);
 })
 
 const limpiarFormulario = () => {
@@ -87,12 +111,14 @@ botonVistaTodas.addEventListener("click", event => {
     seccionCompletadas.style.display = "none";
     activarBoton(botonVistaTodas);
     tareasPendientes();
+    alternarPanelesMovil(vistas);
 
 })
 botonVistaCompletadas.addEventListener("click", event => {
     seccionCompletadas.style.display = "block";
     seccionPendientes.style.display = "none";
     activarBoton(botonVistaCompletadas);
+    alternarPanelesMovil(vistas);;
 })
 // Filtro de Castegorias
 const botonVistaUniversidad = document.querySelector("#vista-universidad");
@@ -135,6 +161,7 @@ botonVistaUniversidad.addEventListener("click", event => {
     seccionCompletadas.style.display = "none";
     activarBoton(botonVistaUniversidad);
     filtrarCategoria("Universidad")
+    alternarPanelesMovil(categorias);
 
 })
 
@@ -142,14 +169,18 @@ botonVistaTrabajo.addEventListener("click", event => {
     seccionPendientes.style.display = "block";
     seccionCompletadas.style.display = "none";
     activarBoton(botonVistaTrabajo);
-    filtrarCategoria("Trabajo")
+    filtrarCategoria("Trabajo");
+    alternarPanelesMovil(categorias);
+
 })
 
 botonVistaPersonal.addEventListener("click", event => {
     seccionPendientes.style.display = "block";
     seccionCompletadas.style.display = "none";
     activarBoton(botonVistaPersonal);
-    filtrarCategoria("Personal")
+    filtrarCategoria("Personal");
+    alternarPanelesMovil(categorias);
+
 })
 
 // Funcion cambio de color prioridad
@@ -190,6 +221,7 @@ botonVistaProximas.addEventListener("click", event => {
     seccionCompletadas.style.display = "none";
     activarBoton(botonVistaProximas);
     filtrarProximas();
+    alternarPanelesMovil(vistas);
 })
 
 // Fitro de fecha Hoy
@@ -213,6 +245,7 @@ botonVistaHoy.addEventListener("click", event => {
     seccionCompletadas.style.display = "none";
     activarBoton(botonVistaHoy);
     filtrarHoy();
+    alternarPanelesMovil(vistas);
 
 })
 const botonAgregar = document.querySelector("#agregar-tarea");
@@ -241,16 +274,6 @@ function actualizarEstadoFecha(fecha, fechaTexto){
         fechaTexto.classList.remove("fechaVencida");
     }
 }
-
-// Scroll de nueva tarea
-formulario.addEventListener("scroll", event => {
-    let scrollActual = formulario.scrollLeft;
-    if(scrollActual > 0){
-        formulario.classList.add("ocultar-flecha");
-    }else{
-        formulario.classList.remove("ocultar-flecha");
-    }
-})
 
 function guardarTareas(){
     localStorage.setItem("tareas", JSON.stringify(tareas));
@@ -358,8 +381,13 @@ function crearElementoTarea(tarea){
     divText.classList.add("textoTareaCategoria");
     divText.append(texto, textoCategoria, fechaTexto);
 
+    // Creo un contenedor de botones para el responsive
+    const acciones = document.createElement("div");
+    acciones.classList.add("acciones-tarea");
+    acciones.append(botonEditar, botonEliminar);
+
     // Agrego todos los elementos a la lista
-    li.append(checkBox, divText, botonEditar, botonEliminar,  textoPrioridad);
+    li.append(checkBox, divText, textoPrioridad, acciones);
     return li;
 }
 // --------- Agregar tareas -------
@@ -424,7 +452,7 @@ const agregarTarea = (event) => {
     ordenarPorPrioridad();
 };
 
-// Boton Agregar
+// Boton Cancelar
 formularioTarea.addEventListener("submit", agregarTarea);
 const botonCancelar = document.querySelector("#cancelar-tarea");
 

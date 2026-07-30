@@ -225,57 +225,146 @@ button{
 .fechaVencida{
     color: tomato;
 }
-
+.barra-mobile{
+    display: none;
+}
 @media (max-width: 800px) {
-    main {
+    main{
         flex-direction: column;
     }
-
+    .tarea{
+        flex-wrap: wrap;
+    }
+    .textoTareaCategoria{
+        flex: 1;
+        min-width: 0;
+    }
+    .acciones-tarea{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
     .dashboard{
         border-right: none;
-        border-bottom: 1.5px solid #3e3e3c;
-        width: 100%;
     }
-
-    #vistas{
-        display: flex;
-        flex-direction: column;
+    .contenido-categorias{
+        margin: 0;
+        padding: 0;
+        display: none;
     }
-    #categorias{
-        display: flex;
-        flex-direction: column;
-    }
-    .contenido-vistas, .contenido-categorias{
-        display: flex;
-        gap: 2rem;
-        flex-direction: row;
-        overflow-x: auto;
-    }
-    .contenido-vistas button,
-    .contenido-categorias button {
-        width: auto;
-        flex-shrink: 0;
-    }
-    .dashboard button svg{
-        padding-right: 0;
-    }
-    .formulario-nueva-tarea {
-        max-width: 100%;
-        overflow-x: auto;
-        position: relative;
-    }
-
-    .formulario-nueva-tarea::after {
-        content: "→";
-        position: absolute;
-        right: 0;
-    }
-    .formulario-nueva-tarea.ocultar-flecha::after {
+    #nueva-tarea{
         display: none;
     }
 
-
-    #formulario-tareas {
-        flex-shrink: 0;
+    .barra-mobile{
+        background: #2c2c2a;
+        display: flex;
+        justify-content: center;
+        gap: 7rem;
+        border-top: 1.5px solid #3e3e3c;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
     }
+    .vistas-mobile, .categorias-mobile, .agregar-mobile{
+        width: 100px;
+        display: flex;
+        flex-direction: column;
+        color: white;
+        padding: 12px;
+        background: transparent;
+        border: none;
+        border-radius: 12px;
+    }
+    .vistas-mobile:hover, .categorias-mobile:hover{
+        background-color: #1a1a1a;
+        border-radius: 12px;
+    }
+    .agregar-mobile:hover{
+        background-color: #1a1a1a;
+        border-radius: 60%;
+    }
+    .botonCentral{
+        display: flex;
+        position: absolute;
+        justify-content: center;
+        align-items: center;
+        top: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: white;
+        color: black;
+
+    }
+    .botonCentral svg{
+        flex-shrink: 0;
+        width: 60px;
+        height: 60px;
+    }
+
+    .formulario-nueva-tarea{
+        position: absolute;
+        background: rgba(44, 44, 42, 0.7);
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        backdrop-filter: blur(5px);
+        justify-content: center;
+        align-items: flex-start;
+    }
+    #formulario-tareas{
+        padding: 1rem;
+        border: 2px solid #3e3e3c;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: #2c2c2a;
+        flex-direction: column;
+    }
+    .botonForm{
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+    .agregarCancelar{
+        border: 1px solid #3e3e3c;
+        border-radius: 12px;
+    }
+
+    #vistas, #categorias{
+        position: absolute;
+        background: rgba(44, 44, 42, 0.7);
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        backdrop-filter: blur(5px);
+        padding-inline: 2rem;
+        padding-bottom: 2rem;
+        display: flex;
+        box-sizing: border-box;
+        justify-content: flex-end;
+        flex-direction: column;
+    }
+
+    .contenido-vistas, .contenido-categorias{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 1rem;
+        border: 2px solid #3e3e3c;
+        border-radius: 12px;
+        gap: 1rem;
+        background: #2c2c2a;
+    }
+
+
 }

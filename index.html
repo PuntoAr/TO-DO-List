@@ -17,16 +17,16 @@
 </header>
 <main>
     <article class="dashboard">
-        <div id="vistas">
+        <div id="vistas" style="display: none">
             <h2>Vistas</h2>
-                <div class="contenido-vistas">
-                    <button class="seleccionBoton" id="vista-todas"><i data-lucide ="gallery-vertical-end"></i> <span>Todas</span></button>
-                    <button class="seleccionBoton" id="vista-hoy"><i data-lucide="sun"></i> <span>Hoy</span> </button>
-                    <button class="seleccionBoton" id="vista-proximas"><i data-lucide ="calendar"></i> <span>Próximas</span></button>
-                    <button class="seleccionBoton" id="vista-completadas"><i data-lucide ="check"></i> <span>Completadas</span></button>
-                </div>
+            <div class="contenido-vistas">
+                <button class="seleccionBoton" id="vista-todas"><i data-lucide ="gallery-vertical-end"></i> <span>Todas</span></button>
+                <button class="seleccionBoton" id="vista-hoy"><i data-lucide="sun"></i> <span>Hoy</span> </button>
+                <button class="seleccionBoton" id="vista-proximas"><i data-lucide ="calendar"></i> <span>Próximas</span></button>
+                <button class="seleccionBoton" id="vista-completadas"><i data-lucide ="check"></i> <span>Completadas</span></button>
+            </div>
         </div>
-        <div id="categorias">
+        <div id="categorias" style="display: none">
             <h2>Categorias</h2>
                 <div class="contenido-categorias">
                     <button class="seleccionBoton" id="vista-universidad"><i data-lucide ="circle" color="#d05e38" stroke-width="3"></i>
@@ -82,6 +82,11 @@
         </section>
     </article>
 </main>
+<nav class="barra-mobile">
+    <button class="vistas-mobile" type="button"><i data-lucide="layout-grid"></i> Vistas </button>
+    <button class="agregar-mobile botonCentral" type="button"><i data-lucide="plus"></i></button>
+    <button class="categorias-mobile" type="button"><i data-lucide="tag"></i>Categorías</button>
+</nav>
 <script src="https://unpkg.com/lucide"></script>
 <script>
     lucide.createIcons();
