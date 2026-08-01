@@ -32,7 +32,7 @@ const botonCategoriaMovil = document.querySelector(".categorias-mobile");
 
 // Esconder o mostrar vistas y categorias en movil
 const alternarPanelesMovil = (elemento) => {
-    if(elemento.style.display === "none"){
+    if(elemento.style.display === "none" || elemento.style.display === ""){
         elemento.style.display = "flex";
     }else{
         elemento.style.display = "none";
