@@ -232,6 +232,10 @@ button{
     main{
         flex-direction: column;
     }
+    #vistas,
+    #categorias {
+        display: none;
+    }
     .tarea{
         flex-wrap: wrap;
     }
