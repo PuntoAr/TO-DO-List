@@ -18,6 +18,9 @@ const cantidadTareas = document.querySelector('#cantidad-tareas-pendientes');
 let contadorTareas = 0;
 cantidadTareas.innerText = contadorTareas + " tareas pendientes";
 
+// Indicador de filtro actual
+const filtroActual = document.querySelector("#filtro-actual");
+
 // Ocultar y mostrar formulario
 const botonTareas = document.querySelector("#nueva-tarea");
 const formulario = document.querySelector(".formulario-nueva-tarea");
@@ -112,6 +115,7 @@ botonVistaTodas.addEventListener("click", event => {
     activarBoton(botonVistaTodas);
     tareasPendientes();
     alternarPanelesMovil(vistas);
+    filtroActual.textContent = "Vista: Todas"
 
 })
 botonVistaCompletadas.addEventListener("click", event => {
@@ -119,6 +123,7 @@ botonVistaCompletadas.addEventListener("click", event => {
     seccionPendientes.style.display = "none";
     activarBoton(botonVistaCompletadas);
     alternarPanelesMovil(vistas);;
+    filtroActual.textContent = "Vista: Completadas";
 })
 // Filtro de Castegorias
 const botonVistaUniversidad = document.querySelector("#vista-universidad");
@@ -162,6 +167,7 @@ botonVistaUniversidad.addEventListener("click", event => {
     activarBoton(botonVistaUniversidad);
     filtrarCategoria("Universidad")
     alternarPanelesMovil(categorias);
+    filtroActual.textContent = "Categoria: Universidad";
 
 })
 
@@ -171,6 +177,7 @@ botonVistaTrabajo.addEventListener("click", event => {
     activarBoton(botonVistaTrabajo);
     filtrarCategoria("Trabajo");
     alternarPanelesMovil(categorias);
+    filtroActual.textContent = "Categoria: Trabajo"
 
 })
 
@@ -180,6 +187,7 @@ botonVistaPersonal.addEventListener("click", event => {
     activarBoton(botonVistaPersonal);
     filtrarCategoria("Personal");
     alternarPanelesMovil(categorias);
+    filtroActual.textContent = "Categoria: Personal"
 
 })
 
@@ -222,6 +230,7 @@ botonVistaProximas.addEventListener("click", event => {
     activarBoton(botonVistaProximas);
     filtrarProximas();
     alternarPanelesMovil(vistas);
+    filtroActual.textContent = "Vista: Próximas"
 })
 
 // Fitro de fecha Hoy
@@ -246,6 +255,7 @@ botonVistaHoy.addEventListener("click", event => {
     activarBoton(botonVistaHoy);
     filtrarHoy();
     alternarPanelesMovil(vistas);
+    filtroActual.textContent = "Vista: Hoy"
 
 })
 const botonAgregar = document.querySelector("#agregar-tarea");

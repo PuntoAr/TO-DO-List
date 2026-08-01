@@ -329,6 +329,18 @@ button{
         background: #2c2c2a;
         flex-direction: column;
     }
+    .selectTareas, .tarea-nueva{
+        width: 200px;
+        height: 25px;
+    }
+    .campo-fecha{
+        justify-content: center;
+        align-items: center;
+    }
+    .agregarCancelar{
+        padding: 1rem;
+    }
+
     .botonForm{
         display: flex;
         flex-direction: row;
