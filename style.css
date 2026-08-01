@@ -235,6 +235,15 @@ button{
     #vistas, #categorias {
         display: none;
     }
+    .contenido{
+        padding-bottom: 120px;
+    }
+    #titulo{
+        width: 100%;
+        position: fixed;
+        background-color: #2c2c2a;
+        z-index: 100;
+    }
     .tarea{
         flex-wrap: wrap;
     }
