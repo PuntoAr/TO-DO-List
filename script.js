@@ -32,13 +32,18 @@ const botonCategoriaMovil = document.querySelector(".categorias-mobile");
 
 // Esconder o mostrar vistas y categorias en movil
 const alternarPanelesMovil = (elemento) => {
-    if(elemento.style.display === "none" || elemento.style.display === ""){
-        elemento.style.display = "flex";
-    }else{
-        elemento.style.display = "none";
+    const esMovil = window.matchMedia("(max-width: 800px)").matches;
+
+    if (!esMovil) {
+        return;
     }
 
-}
+    if (elemento.style.display === "none" || elemento.style.display === "") {
+        elemento.style.display = "flex";
+    } else {
+        elemento.style.display = "none";
+    }
+};
 // Esconde o muestra el formulario
 const alternarFormulario = () =>{
     if(formulario.style.display === "none"){
